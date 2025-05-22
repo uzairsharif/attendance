@@ -1,0 +1,23 @@
+{
+    "name": "uzair3/attendance",
+    "description": "attendance system",
+    "type": "liabrary",
+    "authors": [
+        {
+            "name": "uzair3"
+        }
+    ],
+    "require": {},
+    "autoload": {
+        "psr-4": {
+            "Uzair3\\Attendance\\": "src/"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Uzair3\\Attendance\\AttendanceServiceProvider"
+            ]
+        }
+    }
+}

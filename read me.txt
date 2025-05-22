@@ -1,0 +1,49 @@
+Put uzair3/attendance/adminlte folder in public folder of your main directory.
+
+User model in the host application must use Illuminate\Database\Eloquent\SoftDeletes.
+	use Illuminate\Database\Eloquent\SoftDeletes;  
+	use HasFactory, Notifiable , SoftDeletes;
+
+
+In main application, RegisterController and LoginController should include AuthRedirectTrait 		should be used by use Uzair3\Attendance\AuthRedirectsTrait;  and use AuthRedirectsTrait;
+	LoginController should have 
+	protected function authenticated(Request $request, $user)
+    {
+        return $this->handleUserRedirection($user);
+        // if ($user->status != 'active') {
+        //     Auth::logout();
+        //     return redirect()->route('user_not_approved');
+        // }
+
+        // if ($user->role == 'admin') {
+        //     return redirect()->route('admin.dashboard');
+        // } elseif ($user->role == 'user') {
+        //     return redirect()->route('user.dashboard');
+        // }
+    }
+    while the RegisterController should have
+	protected function registered(Request $request, $user)
+    {
+        return $this->handleUserRedirection($user);
+    }
+LoginController and Registercontrlloer should also include use Illuminate\Http\Request;
+
+
+php artisan storage:link command bhi run krni hogi.
+
+automatic checkout will be done if user does not checkout on time. for this schedule will be run. for this to work.   you have to have console.php route in your host application with following code in it. after that you can run schedule by running php artisan schedule:work.
+Below is the code for console.php file.
+    <?php
+
+    use Illuminate\Foundation\Inspiring;
+    use Illuminate\Support\Facades\Artisan;
+    use Illuminate\Support\Facades\Schedule;
+
+    Artisan::command('inspire', function () {
+        $this->comment(Inspiring::quote());
+    })->purpose('Display an inspiring quote')->hourly();
+
+
+    Schedule::command('checkout:cron')->dailyAt('21:05');
+    // Schedule::command('checkout:cron')->everyMinute();
+
