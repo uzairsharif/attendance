@@ -1,7 +1,8 @@
 {
     "name": "uzair3/attendance",
     "description": "attendance system",
-    "type": "liabrary",
+    "type": "library",
+    "license": "MIT",
     "authors": [
         {
             "name": "uzair3"
