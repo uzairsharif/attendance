@@ -1,0 +1,15 @@
+Leave Approval/Rejection
+	Bulk Approval or rejection of leaves
+Geo Location of Employees (may be admin also)
+	geo location tracking using html 5 geolocation api.
+Email Notifications
+	email notification on missing check-in , leave status change, attendance correction
+Analytics
+	1. Monthly attendance performance graph
+	2. Late Arrival trends per employee
+
+
+
+	
+	
+

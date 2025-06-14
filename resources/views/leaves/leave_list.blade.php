@@ -50,6 +50,8 @@
 
                             <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="Browser: activate to sort column ascending">Status</th>
 
+                            <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="Browser: activate to sort column ascending">Leave Comments(admin)</th>
+
                             
                           </tr>
     				              </thead>
@@ -73,6 +75,8 @@
                                       <span class="badge badge-secondary">Unknown</span>
                                   @endif
                               </td>
+                              <td>{{ $leave['leave_review_comment'] ?? '' }}</td>
+
       				              </tr>
                           @endforeach
     				              </tbody>
@@ -85,6 +89,8 @@
                               <th rowspan="1" colspan="1">Type</th>
                               <th rowspan="1" colspan="1">Reason</th>
                               <th rowspan="1" colspan="1">Status</th>
+                              <th rowspan="1" colspan="1">Leave Comments(admin)</th>
+
                             </tr>
     				              </tfoot>
     				            </table>

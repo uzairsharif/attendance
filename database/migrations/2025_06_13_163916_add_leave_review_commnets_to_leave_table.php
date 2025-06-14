@@ -11,8 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-         Schema::table('users', function (Blueprint $table) {
-            $table->string('role')->default('user')->change();
+        Schema::table('leaves', function (Blueprint $table) {
+            $table->text('leave_review_comment')->nullable()->after('approved_by');
+
         });
     }
 
@@ -21,8 +22,8 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('users', function (Blueprint $table) {
-             $table->string('role')->default('admin')->change();
+        Schema::table('leaves', function (Blueprint $table) {
+            $table->dropColumn('leave_review_comment');
         });
     }
 };

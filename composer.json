@@ -11,7 +11,8 @@
     "require": {},
     "autoload": {
         "psr-4": {
-            "Uzair3\\Attendance\\": "src/"
+            "Uzair3\\Attendance\\": "src/",
+            "Uzair3\\Attendance\\Database\\Seeders\\": "database/seeders/"
         }
     },
     "extra": {

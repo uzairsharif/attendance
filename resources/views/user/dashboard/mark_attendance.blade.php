@@ -38,8 +38,8 @@
                             <canvas id="snapshotCanvas" style="display: none;"></canvas>
                             <img id="capturedImage" style="display: none; width: 100px; height: 100px;">
                             <div class="mt-2">
-                                <button class="btn btn-block btn-primary" id="captureBtn">Capture Image</button>
-                                <button class="btn btn-block btn-success" id="checkInBtn">Check In</button>
+                                <button class="btn btn-block btn-success" id="captureBtn">Capture Image & Check In</button>
+                                <!-- <button class="btn btn-block btn-success" id="checkInBtn">Check In</button> -->
                                 <button class="btn btn-block btn-primary" id="checkOutBtn" disabled>Check Out</button>
                             </div>
                             @endif
@@ -58,7 +58,7 @@
     let video = document.getElementById('camera');
     let canvas = document.getElementById('snapshotCanvas');
     let capturedImage = document.getElementById('capturedImage');
-    let checkInBtn = document.getElementById('checkInBtn');
+    // let checkInBtn = document.getElementById('checkInBtn');
     let captureBtn = document.getElementById('captureBtn');
     let checkOutBtn = document.getElementById('checkOutBtn');
     let capturedPhoto = null;
@@ -80,70 +80,181 @@
             capturedImage.src = canvas.toDataURL('image/png');
             capturedImage.style.display = "block";
             
-            // Convert to Blob for upload
             canvas.toBlob(blob => {
-                capturedPhoto = new File([blob], "attendance.png", { type: "image/png" });
-            }, 'image/png');
-        });
-    }
-
-    if(checkInBtn){
-        checkInBtn.addEventListener('click', function () {
-            if (!capturedPhoto){
-                Swal.mixin({
-                      toast: true,
-                      position: 'top-end', 
-                      showConfirmButton: false,
-                      timer: 3000
+                if (!blob) {
+                    Swal.mixin({
+                        toast: true,
+                        position: 'top-end', 
+                        showConfirmButton: false,
+                        timer: 3000
                     }).fire({
-                      icon: 'warning',
-                      title: 'Please capture an image first!'
+                        icon: 'warning',
+                        title: 'Please capture an image first!'
                     });
                     return;
-            } 
-
-
-            let formData = new FormData();
-            formData.append('attendance_image', capturedPhoto);
-
-            fetch("{{ route('attendance.checkin') }}", {
-                method: "POST",
-                body: formData,
-                headers: { "X-CSRF-TOKEN": "{{ csrf_token() }}" }
-            })
-            .then(response => response.json())
-            .then(data => {
-                if(data.error){
-                    Swal.mixin({
-                      toast: true,
-                      position: 'top-end', 
-                      showConfirmButton: false,
-                      timer: 3000
-                    }).fire({
-                      icon: 'error',
-                      title: data.error
-                    });
                 }
-                else{
-                    Swal.mixin({
-                      toast: true,
-                      position: 'top-end', 
-                      showConfirmButton: false,
-                      timer: 3000
-                    }).fire({
-                      icon: 'success',
-                      title: data.message
-                    });
-                    captureBtn.disabled = true;
-                    checkInBtn.disabled = true;
-                    checkInBtn.removeClass = 'btn-success';
-                    checkInBtn.addClass = 'btn-primary'
-                    checkOutBtn.disabled = false;
-                }
-            })
-            .catch(error => console.error("Error:", error));
+
+                capturedPhoto = new File([blob], "attendance.png", { type: "image/png" });
+
+                let formData = new FormData();
+                formData.append('attendance_image', capturedPhoto);
+
+                fetch("{{ route('attendance.checkin') }}", {
+                    method: "POST",
+                    body: formData,
+                    headers: { "X-CSRF-TOKEN": "{{ csrf_token() }}" }
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.error) {
+                        Swal.mixin({
+                            toast: true,
+                            position: 'top-end', 
+                            showConfirmButton: false,
+                            timer: 3000
+                        }).fire({
+                            icon: 'error',
+                            title: data.error
+                        });
+                    } else {
+                        Swal.mixin({
+                            toast: true,
+                            position: 'top-end', 
+                            showConfirmButton: false,
+                            timer: 3000
+                        }).fire({
+                            icon: 'success',
+                            title: data.message
+                        });
+
+                        captureBtn.disabled = true;
+                        // checkInBtn.disabled = true;
+                        captureBtn.classList.remove('btn-success');
+                        captureBtn.classList.add('btn-primary');
+                        checkOutBtn.disabled = false;
+                    }
+                })
+                .catch(error => console.error("Error:", error));
+            }, 'image/png');
+            {{--
+            // canvas.toBlob(blob => {
+            //     capturedPhoto = new File([blob], "attendance.png", { type: "image/png" });
+            // }, 'image/png');
+            // if (!capturedPhoto){
+            //     Swal.mixin({
+            //           toast: true,
+            //           position: 'top-end', 
+            //           showConfirmButton: false,
+            //           timer: 3000
+            //         }).fire({
+            //           icon: 'warning',
+            //           title: 'Please capture an image first!'
+            //         });
+            //         return;
+            // } 
+
+            // let formData = new FormData();
+            // formData.append('attendance_image', capturedPhoto);
+
+            // fetch("{{ route('attendance.checkin') }}", {
+            //     method: "POST",
+            //     body: formData,
+            //     headers: { "X-CSRF-TOKEN": "{{ csrf_token() }}" }
+            // })
+            // .then(response => response.json())
+            // .then(data => {
+            //     if(data.error){
+            //         Swal.mixin({
+            //           toast: true,
+            //           position: 'top-end', 
+            //           showConfirmButton: false,
+            //           timer: 3000
+            //         }).fire({
+            //           icon: 'error',
+            //           title: data.error
+            //         });
+            //     }
+            //     else{
+            //         Swal.mixin({
+            //           toast: true,
+            //           position: 'top-end', 
+            //           showConfirmButton: false,
+            //           timer: 3000
+            //         }).fire({
+            //           icon: 'success',
+            //           title: data.message
+            //         });
+            //         captureBtn.disabled = true;
+            //         checkInBtn.disabled = true;
+            //         checkInBtn.removeClass = 'btn-success';
+            //         checkInBtn.addClass = 'btn-primary'
+            //         checkOutBtn.disabled = false;
+            //     }
+            // })
+            // .catch(error => console.error("Error:", error)); 
+            --}}
         });
     }
+
+    {{--
+    // if(checkInBtn){
+    //     checkInBtn.addEventListener('click', function () {
+    //         if (!capturedPhoto){
+    //             Swal.mixin({
+    //                   toast: true,
+    //                   position: 'top-end', 
+    //                   showConfirmButton: false,
+    //                   timer: 3000
+    //                 }).fire({
+    //                   icon: 'warning',
+    //                   title: 'Please capture an image first!'
+    //                 });
+    //                 return;
+    //         } 
+
+    //         let formData = new FormData();
+    //         formData.append('attendance_image', capturedPhoto);
+
+    //         fetch("{{ route('attendance.checkin') }}", {
+    //             method: "POST",
+    //             body: formData,
+    //             headers: { "X-CSRF-TOKEN": "{{ csrf_token() }}" }
+    //         })
+    //         .then(response => response.json())
+    //         .then(data => {
+    //             if(data.error){
+    //                 Swal.mixin({
+    //                   toast: true,
+    //                   position: 'top-end', 
+    //                   showConfirmButton: false,
+    //                   timer: 3000
+    //                 }).fire({
+    //                   icon: 'error',
+    //                   title: data.error
+    //                 });
+    //             }
+    //             else{
+    //                 Swal.mixin({
+    //                   toast: true,
+    //                   position: 'top-end', 
+    //                   showConfirmButton: false,
+    //                   timer: 3000
+    //                 }).fire({
+    //                   icon: 'success',
+    //                   title: data.message
+    //                 });
+    //                 captureBtn.disabled = true;
+    //                 checkInBtn.disabled = true;
+    //                 checkInBtn.removeClass = 'btn-success';
+    //                 checkInBtn.addClass = 'btn-primary'
+    //                 checkOutBtn.disabled = false;
+    //             }
+    //         })
+    //         .catch(error => console.error("Error:", error));
+    //     });
+    // }
+
+    --}}
 
     if(checkOutBtn){
         checkOutBtn.addEventListener('click', function () {

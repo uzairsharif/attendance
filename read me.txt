@@ -1,4 +1,11 @@
-Put uzair3/attendance/adminlte folder in public folder of your main directory.
+1..Put uzair3/attendance/adminlte folder in public folder of your main directory.
+
+2..to run package based seedings 
+	put "Uzair3\\Attendance\\Database\\Seeders\\": "packages/uzair3/attendance/database/seeders/"
+        in composer.json of your main laravel application.
+	it will give you only admin@admin.com as admin and uzair@uzair.com as user
+	both having password as "password".
+
 
 User model in the host application must use Illuminate\Database\Eloquent\SoftDeletes.
 	use Illuminate\Database\Eloquent\SoftDeletes;  
@@ -46,4 +53,13 @@ Below is the code for console.php file.
 
     Schedule::command('checkout:cron')->dailyAt('21:05');
     // Schedule::command('checkout:cron')->everyMinute();
+
+
+
+next...
+git repo links...
+feature list implemented at present...
+feature list future....
+improvements. manager approval.... single check in with photo...
+I may use package to install admin lte to laravel project.
 

@@ -12,6 +12,10 @@
                 </button>
             </div>
             <div class="modal-body">
+                <div class="form-group">
+                    <label for="approvalComments">Comments (optional):</label>
+                    <textarea class="form-control" id="approvalComments" rows="3" placeholder="Enter comments..."></textarea>
+                </div>
                 Are you sure you want to approve this leave?
             </div>
             <div class="modal-footer">
@@ -34,6 +38,10 @@
                 </button>
             </div>
             <div class="modal-body">
+                <div class="form-group">
+                    <label for="rejectionComments">Comments (optional):</label>
+                    <textarea class="form-control" id="rejectionComments" rows="3" placeholder="Enter comments..."></textarea>
+                </div>
                 Are you sure you want to reject this leave?
             </div>
             <div class="modal-footer">
@@ -118,6 +126,8 @@
 
                             <th class="sorting" tabindex="0" aria-controls="leavesTable" rowspan="1" colspan="1" aria-label="Browser: activate to sort column ascending">Status</th>
 
+                            <th class="sorting" tabindex="0" aria-controls="leavesTable" rowspan="1" colspan="1" aria-label="Browser: activate to sort column ascending">Leave Review Comments</th>
+
                             <th class="sorting" tabindex="0" aria-controls="leavesTable" rowspan="1" colspan="1" aria-label="Engine version: activate to sort column ascending">Action</th>
                           </tr>
     				              </thead>
@@ -144,6 +154,7 @@
                                       <span class="badge badge-danger">{{ $applied_leave->status }}</span>
                                   @endif
                               </td>
+                              <td>{{ $applied_leave['leave_review_comment'] ?? '' }}</td>
 
                               <td data-column="action">
                                   @if($applied_leave->status === 'Pending' && !$applied_leave->user->deleted_at)
@@ -176,6 +187,7 @@
                             <th rowspan="1" colspan="1">To</th>
                             <th rowspan="1" colspan="1">Reason</th>
                             <th rowspan="1" colspan="1">Status</th>
+                            <th rowspan="1" colspan="1">Leave Review Comments</th>
                             <th rowspan="1" colspan="1">Action</th>
                           </tr>
     				              </tfoot>
@@ -235,6 +247,7 @@
       document.getElementById('confirmApprovalButton').addEventListener('click', function () {
         if (!LeaveId) return;
 
+        const comments = document.getElementById('approvalComments').value; 
         const url = `{{ route('leaves.approve', ':id') }}`.replace(':id', LeaveId);
         // const url = `{{ url('/delete-users') }}/${deleteUserId}`;
         const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
@@ -244,6 +257,9 @@
                 'X-CSRF-TOKEN': csrfToken,
                 'Content-Type': 'application/json',
             },
+            body: JSON.stringify({
+                approval_comments: comments
+            }),
         })
         .then(response => response.json())
         .then(data => {
@@ -258,7 +274,7 @@
             // Show success toast
             Swal.mixin({
                 toast: true,
-                position: 'top-end',  // Changed position to bottom-right
+                position: 'top-end',
                 showConfirmButton: false,
                 timer: 3000
             }).fire({
@@ -269,7 +285,7 @@
           else {  
             Swal.mixin({
                 toast: true,
-                position: 'top-end',  // Changed position to bottom-right
+                position: 'top-end', 
                 showConfirmButton: false,
                 timer: 3000
             }).fire({
@@ -284,7 +300,7 @@
 
       document.getElementById('confirmRejectionButton').addEventListener('click', function () {
         if (!LeaveId) return;
-
+        const rejectionComments = document.getElementById('rejectionComments').value; 
         const url = `{{ route('leaves.reject', ':id') }}`.replace(':id', LeaveId);
         // const url = `{{ url('/delete-users') }}/${deleteUserId}`;
         const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
@@ -294,6 +310,9 @@
                 'X-CSRF-TOKEN': csrfToken,
                 'Content-Type': 'application/json',
             },
+            body: JSON.stringify({
+                rejection_comments: rejectionComments
+            }),
         })
         .then(response => response.json())
         .then(data => {

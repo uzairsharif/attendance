@@ -1,0 +1,17 @@
+User Authentication
+	1. Role-based access control (Admin, Employee)
+User Panel
+	1. Profile image updation of self.
+	2. Mark attendance with photo (Check-in, Check-out)
+	3. Apply for leave, view leave balance and leave history
+	4. Submit attendance correction requests
+Admin Panel
+	1. Dashboard (Total employees, On-time today, Late today, On-time percentage)
+	2. Approve/reject leave requests
+	3. Review and act on attendance correction requests\
+	4. View full list of users
+	5. Generate attendance reports (filter by date range, user, in-status, out-status)
+	6. Generate leave reports (filter by date range, user, status)
+	7. Update profile image of self
+Automatic Attendance check-out
+	1. Automatic check-out at office closing time

@@ -74,7 +74,7 @@ class LeavesController extends Controller
         $leaves = Leave::where('user_id',$userId)->get();
         return view('attendance::leaves/leave_list', compact('leaves'));
     }
-    public function approve($id){
+    public function approve($id, Request $request){
         
         $leave = Leave::findOrFail($id);
         if (!$leave) {
@@ -82,12 +82,14 @@ class LeavesController extends Controller
         }
         else if ($leave->status == 'Pending') {
             $leave->status = 'Approved';
+            $leave->leave_review_comment = $request->approval_comments;
+            $leave->approved_by = auth()->id();
             $leave->save();
 
             return response()->json(['success' => true, 'message' => 'Leave approved Successfully','updatedStatus'=> $leave->status]);
         }
     }
-    public function reject($id){
+    public function reject($id, Request $request){
         
         $leave = Leave::findOrFail($id);
         if (!$leave) {
@@ -95,6 +97,8 @@ class LeavesController extends Controller
         }
         else if ($leave->status == 'Pending') {
             $leave->status = 'Rejected';
+            $leave->leave_review_comment = $request->rejection_comments;
+            $leave->approved_by = auth()->id();
             $leave->save();
 
             return response()->json(['success' => true, 'message' => 'Leave Rejected Successfully','updatedStatus'=> $leave->status]);

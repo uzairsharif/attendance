@@ -31,9 +31,15 @@ class AttendanceServiceProvider extends ServiceProvider
         // Load package views
         $this->loadViewsFrom(__DIR__.'/../resources/views', 'attendance');
 
-        $this->publishes([
-            __DIR__.'/../database/migrations' => database_path('migrations'),
-        ], 'attendance-migrations');
+        // $this->publishes([
+        //     __DIR__.'/../database/migrations' => database_path('migrations'),
+        // ], 'attendance-migrations');
+
+        $this->loadMigrationsFrom(__DIR__.'/../database/migrations');
+
+        $this->loadFactoriesFrom(__DIR__.'/../database/factories');
+        
+
         $this->publishes([
             __DIR__.'/../resources/assets' => public_path('uzair3/attendance'),
         ], 'attendance-assets');
