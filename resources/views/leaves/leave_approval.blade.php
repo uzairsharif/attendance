@@ -54,7 +54,7 @@
 <!-- End of Approval Confirmation Modal -->
 
 <div class="content-wrapper">
-	<section class="content-header">
+    <section class="content-header">
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
@@ -70,50 +70,50 @@
       </div><!-- /.container-fluid -->
     </section>
     <section class="content">
-    	<div class="container-fluid">
-    		<div class="row">
-    			<div class="row-12">
-    					<div class="card">
-    				          <div class="card-header">
-    				            <h3 class="card-title">Leave Approval</h3>
-    				          </div>
-    				          <!-- /.card-header -->
-    				          <div class="card-body">
-    				            <div id="leavesTable_wrapper" class="dataTables_wrapper dt-bootstrap4"><div class="row"></div>
+        <div class="container-fluid">
+            <div class="row">
+                <div class="row-12">
+                        <div class="card">
+                              <div class="card-header">
+                                <h3 class="card-title">Leave Approval</h3>
+                              </div>
+                              <!-- /.card-header -->
+                              <div class="card-body">
+                                <div id="leavesTable_wrapper" class="dataTables_wrapper dt-bootstrap4"><div class="row"></div>
 
-    				            <div class="row"><div class="col-sm-12">
-    				            	
+                                <div class="row"><div class="col-sm-12">
+                                    
 
-    				            	<!-- Modal -->
-    				            	<!-- <div class="modal fade" id="addEmployeeModal" tabindex="-1" aria-labelledby="addEmployeeModalLabel" aria-hidden="true">
-    				            	  <div class="modal-dialog">
-    				            	    <div class="modal-content">
-    				            	      <div class="modal-header">
-    				            	        <h5 class="modal-title" id="addEmployeeModalLabel">Add New Location</h5>
-    				            	        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-    				            	          <span aria-hidden="true">&times;</span>
-    				            	        </button>
-    				            	      </div>
-    				            	      <div class="modal-body">
-    				            	        <form id="addLocationForm">
-    				            	          <div class="form-group">
-    				            	            <label for="locationId">Location Name</label>
-    				            	            <input type="text" class="form-control" id="locationId" placeholder="Location Name" required>
-    				            	          </div>
-    				            	          
-    				            	        </form>
-    				            	      </div>
-    				            	      <div class="modal-footer">
-    				            	        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-    				            	        <button type="submit" class="btn btn-primary" form="addShiftForm">Save Location</button>
-    				            	      </div>
-    				            	    </div>
-    				            	  </div>
-    				            	</div> -->
-    				            	<!-- modal code end -->
-    				            	<table id="leavesTable" class="table table-bordered table-striped dataTable dtr-inline" aria-describedby="leavesTable_info">
-    				              <thead>
-    				              <tr>
+                                    <!-- Modal -->
+                                    <!-- <div class="modal fade" id="addEmployeeModal" tabindex="-1" aria-labelledby="addEmployeeModalLabel" aria-hidden="true">
+                                      <div class="modal-dialog">
+                                        <div class="modal-content">
+                                          <div class="modal-header">
+                                            <h5 class="modal-title" id="addEmployeeModalLabel">Add New Location</h5>
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                              <span aria-hidden="true">&times;</span>
+                                            </button>
+                                          </div>
+                                          <div class="modal-body">
+                                            <form id="addLocationForm">
+                                              <div class="form-group">
+                                                <label for="locationId">Location Name</label>
+                                                <input type="text" class="form-control" id="locationId" placeholder="Location Name" required>
+                                              </div>
+                                              
+                                            </form>
+                                          </div>
+                                          <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                            <button type="submit" class="btn btn-primary" form="addShiftForm">Save Location</button>
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </div> -->
+                                    <!-- modal code end -->
+                                    <table id="leavesTable" class="table table-bordered table-striped dataTable dtr-inline" aria-describedby="leavesTable_info">
+                                  <thead>
+                                  <tr>
                             <th class="sorting sorting_asc" tabindex="0" aria-controls="leavesTable" rowspan="1" colspan="1" aria-sort="ascending" aria-label="Rendering engine: activate to sort column descending">User ID</th>
 
                             <th class="sorting" tabindex="0" aria-controls="leavesTable" rowspan="1" colspan="1" aria-label="Browser: activate to sort column ascending">Name</th>
@@ -130,13 +130,13 @@
 
                             <th class="sorting" tabindex="0" aria-controls="leavesTable" rowspan="1" colspan="1" aria-label="Engine version: activate to sort column ascending">Action</th>
                           </tr>
-    				              </thead>
-    				              <tbody>
+                                  </thead>
+                                  <tbody>
                           @foreach($applied_leaves as $applied_leave)
 
-      				              <tr class="odd" id="leave-row-{{ $applied_leave->id }}">
-      				                <td class="dtr-control sorting_1" tabindex="0">{{ $applied_leave->user_id }}</td>
-      				                <td>{{ $applied_leave->user->name}}
+                                  <tr class="odd" id="leave-row-{{ $applied_leave->id }}">
+                                    <td class="dtr-control sorting_1" tabindex="0">{{ $applied_leave->user_id }}</td>
+                                    <td>{{ $applied_leave->user->name}}
                                 @if($applied_leave->user->deleted_at)
                                   <span class="badge badge-danger">Deleted</span>
                                 @endif
@@ -154,7 +154,7 @@
                                       <span class="badge badge-danger">{{ $applied_leave->status }}</span>
                                   @endif
                               </td>
-                              <td>{{ $applied_leave['leave_review_comment'] ?? '' }}</td>
+                              <td data-column="leaveReview">{{ $applied_leave['leave_review_comment'] ?? '' }}</td>
 
                               <td data-column="action">
                                   @if($applied_leave->status === 'Pending' && !$applied_leave->user->deleted_at)
@@ -176,11 +176,11 @@
                                   @endif
                                   
                               </td>
-      				              </tr>
+                                  </tr>
                           @endforeach
-    				          </tbody>
-    				              <tfoot>
-    				              <tr>
+                              </tbody>
+                                  <tfoot>
+                                  <tr>
                             <th rowspan="1" colspan="1">User ID</th>
                             <th rowspan="1" colspan="1">Name</th>
                             <th rowspan="1" colspan="1">From</th>
@@ -190,18 +190,18 @@
                             <th rowspan="1" colspan="1">Leave Review Comments</th>
                             <th rowspan="1" colspan="1">Action</th>
                           </tr>
-    				              </tfoot>
-    				            </table></div></div></div>
-    				          </div>
-    				          <!-- /.card-body -->
-    				        </div>
-    				    </div>
-    			</div>
-    		</div>
-    	</div>
-    			
+                                  </tfoot>
+                                </table></div></div></div>
+                              </div>
+                              <!-- /.card-body -->
+                            </div>
+                        </div>
+                </div>
+            </div>
+        </div>
+                
     </section>
-	
+    
 @endsection
 
 
@@ -210,7 +210,7 @@
   </style>
 @endpush
 @push('scripts')
-	<script>
+    <script>
     var LeaveId = null;
     function storeLeaveId(leave_Id) {
         LeaveId = leave_Id;     
@@ -229,12 +229,15 @@
       });
       
       function dynamicallyUpdateContent(data){
+        console.log(data);
         const newStatus = data.updatedStatus;
         const row = table.row(`#leave-row-${LeaveId}`).node();
         const statusColumn = row.querySelector('[data-column="status"]');
+        const leaveReviewColumn = row.querySelector('[data-column="leaveReview"]');
         if(newStatus != 'Pending'){
           const actionColumn = row.querySelector('[data-column="action"]');
           actionColumn.innerHTML = ``;  
+          leaveReviewColumn.innerHTML = `<span>${data.leaveActionComments}</span>`;
         }
         statusColumn.innerHTML = `
             <span class="badge badge-${newStatus === 'Pending' ? 'warning' :

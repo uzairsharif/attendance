@@ -9,7 +9,6 @@ use Uzair3\Attendance\Models\Leave;
 use Carbon\Carbon;
 
 
-
 class LeavesController extends Controller
 {
     public function leave_approval()
@@ -86,7 +85,7 @@ class LeavesController extends Controller
             $leave->approved_by = auth()->id();
             $leave->save();
 
-            return response()->json(['success' => true, 'message' => 'Leave approved Successfully','updatedStatus'=> $leave->status]);
+            return response()->json(['success' => true, 'message' => 'Leave approved Successfully','updatedStatus'=> $leave->status, 'leaveActionComments' => $leave->leave_review_comment]);
         }
     }
     public function reject($id, Request $request){
@@ -101,7 +100,7 @@ class LeavesController extends Controller
             $leave->approved_by = auth()->id();
             $leave->save();
 
-            return response()->json(['success' => true, 'message' => 'Leave Rejected Successfully','updatedStatus'=> $leave->status]);
+            return response()->json(['success' => true, 'message' => 'Leave Rejected Successfully','updatedStatus'=> $leave->status, 'leaveActionComments' => $leave->leave_review_comment]);
         }
     }
 }
