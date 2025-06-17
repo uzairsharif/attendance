@@ -1,0 +1,55 @@
+1. composer create-project laravel/laravel:^11.0 my-laravel-app
+2. in .env file set mysql connection...
+3. composer require uzair3/attendance and then php artisan migrate but following error came.
+4. specified key was too long issue was resolved by using Schema::defaultStringLength(191);
+	in app\AppServiceProviders and "use Illuminate\Support\Facades\Schema;
+5. php artisan migrate to run all migrations.
+6. php artisan db:seed
+7. Authentication....
+	laravel ui authentication with bootstrap krnay k liay following commands run ki.
+		-composer require laravel/ui   command was run...
+		-- php artisan ui bootstrap --auth ...it asked to replace controller "yes" kia
+		-- npm install and npm run dev was run....
+
+8. Multi Role Authentication
+	in Login Controller of main laravel application
+		use Uzair3\Attendance\AuthRedirectsTrait;  
+		use Illuminate\Http\Request;
+		use AuthRedirectsTrait trait by add this line as trait use AuthRedirectsTrait;
+
+	in Register controller of main laravel application	
+		use Uzair3\Attendance\AuthRedirectsTrait;
+		use Illuminate\Http\Request;
+		use AuthRedirectsTrait;  use it as a trait.
+		protected function registered(Request $request, $user)
+    		{
+        		return $this->handleUserRedirection($user);
+    		}
+	
+9. Package has Attendance ServiceProvider in uzair3/attendance/src/AttendanceServiceProvider
+	in this file there are $this->publishes that need to be published so we run
+	php artisan vendor:publish command.
+	select Uzair3\Attendance\AttendanceServiceProvider and publish it.
+10. Soft Deletes
+	User model in the host application must use Illuminate\Database\Eloquent\SoftDeletes.
+	use Illuminate\Database\Eloquent\SoftDeletes;  
+	use HasFactory, Notifiable , SoftDeletes;
+11. php artisan storage:link command to link the storage folder in the public folder
+	this will create a storage folder in public folder. and in your User modal you have
+	to allow profile_image in $fillable array like this give below. 
+	protected $fillable = [
+        	'name',
+        	'email',
+        	'password',
+        	'profile_image'
+    	];
+12. automatic checkout
+	php artisan schedule:work command can be run to automatic checkout after office
+	closing time of office. for this to work your host application should have 
+	console.php and this file should have  
+
+	use Illuminate\Support\Facades\Schedule;   and 
+	Schedule::command('checkout:cron')->dailyAt('21:05');
+	// Schedule::command('checkout:cron')->everyMinute();
+	
+	
